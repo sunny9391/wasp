@@ -1,0 +1,21 @@
+name: OWASP ZAP Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run ZAP baseline scan
+      uses: zaproxy/action-baseline@v0.6.1
+      with:
+        target: 'http://testphp.vulnweb.com/'
+        docker_name: 'owasp/zap2docker-stable'
+        rules_file_name: '.zap/rules.tsv'
+        cmd_options: '-a'
